@@ -1,10 +1,17 @@
 #import "CBDView.h"
 
-@interface SBRootIconListView : UIView
+@interface SBIconListView : UIView
 
+@property (nonatomic, assign) BOOL configured;
 -(void)layoutIconsNow;
 
 @end
+
+
+@interface SBRootIconListView : SBIconListView
+
+@end
+
 
 @interface SBIconView : UIView
 
@@ -25,10 +32,35 @@
 
 @end
 
-@interface UIStatusBarWindow : UIWindow
+@interface _UIStatusBar : UIView
+
+@end
+@interface UIStatusBar : UIView
 
 @end
 
 @interface SBEditingDoneButton : UIView
 
+@end
+
+
+@interface SBIconListGridLayoutConfiguration
+
+@property (nonatomic, assign) NSString *iconLocation;
+@property (nonatomic, retain) NSDictionary *managerValues;
+@property (nonatomic, assign) UIEdgeInsets customInsets;
+
+- (void)getLatestValuesFromManager;
+- (NSString *)locationIfKnown;
+- (NSUInteger)numberOfPortraitColumns;
+- (NSUInteger)numberOfPortraitRows;
+- (UIEdgeInsets)portraitLayoutInsets;
+@end
+
+@interface SBIconListLayout : NSObject
+- (SBIconListGridLayoutConfiguration *)layoutConfiguration;
+@end
+
+
+@interface SBIconListFlowLayout : SBIconListLayout
 @end

@@ -1,9 +1,11 @@
 Package: com.chilaxan.cuboid
 Name: Cuboid
 Depends: mobilesubstrate
-Version: 2.0.1
+Conflicts: me.kritanta.homeplus
+Version: 3.0.0
 Architecture: iphoneos-arm
 Description: Lightweight home screen layout manager.
+Depiction: http://repo.kritanta.me/depictions/?id=com.chilaxan.cuboid
 Maintainer: chilaxan & Nepeta
 Author: chilaxan & Nepeta
-Section: Tweaks
+Section: Tweaks (Nepeta)

@@ -62,28 +62,16 @@
 }
 
 -(void)relayout {
-	SBIconController *iconController = [NSClassFromString(@"SBIconController") sharedInstance];
-	SBRootIconListView *listView = [iconController rootIconListAtIndex:[iconController currentIconListIndex]];
-	[UIView animateWithDuration:(0.15) delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-		[listView layoutIconsNow];
-	} completion:NULL];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CBDrelayoutAll" object:nil];
 }
 
 -(void)relayoutAll {
-	SBIconController *iconController = [NSClassFromString(@"SBIconController") sharedInstance];
-	[iconController relayout];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CBDrelayoutAll" object:nil];
 	[self.view.superview bringSubviewToFront:self.view];
 }
 
--(void)relayoutAllAnimated {
-	SBIconController *iconController = [NSClassFromString(@"SBIconController") sharedInstance];
-	SBRootIconListView *listView = [iconController rootIconListAtIndex:[iconController currentIconListIndex]];
-	[UIView animateWithDuration:(0.15) delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-		[listView layoutIconsNow];
-	} completion:^(BOOL whatever) {
-		[iconController relayout];
-		[self.view.superview bringSubviewToFront:self.view];
-	}];
+-(void)relayoutAllAnimated {	
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CBDrelayoutAllAnimated" object:nil];
 }
 
 -(void)loadLayoutWithName:(NSString *)name {
@@ -147,8 +135,8 @@
 }
 
 -(void)stopEditing {
-	SBIconController *iconController = [NSClassFromString(@"SBIconController") sharedInstance];
-	[iconController setIsEditing:NO];
+	//SBIconController *iconController = [NSClassFromString(@"SBIconController") sharedInstance];
+	//[iconController setIsEditing:NO];
 }
 
 -(void)presentViewController:(UIViewController*)viewController animated:(BOOL)animated completion:(id)completion {

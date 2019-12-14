@@ -40,6 +40,7 @@
 -(void)updateVerticalOffset:(id)sender {
 	[CBDManager sharedInstance].verticalOffset = self.verticalOffsetSliderView.slider.value;
 	[[CBDManager sharedInstance] relayout];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CBDrelayoutAll" object:nil];
 }
 
 -(void)updateHorizontalOffset:(id)sender {
