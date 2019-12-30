@@ -11,9 +11,8 @@
 
 %hook SBEditingDoneButton
 
--(void)layoutSubviews {
-	%orig;
-	self.hidden = 1;
+- (id)initWithFrame:(struct CGRect)arg1 {
+	return NULL;
 }
 
 %end
