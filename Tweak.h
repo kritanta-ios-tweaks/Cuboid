@@ -39,10 +39,6 @@
 
 @end
 
-@interface SBEditingDoneButton : UIView
-
-@end
-
 
 @interface SBIconListGridLayoutConfiguration
 
