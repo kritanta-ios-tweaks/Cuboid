@@ -1,0 +1,266 @@
+name = Cuboid
+lowername = cuboid
+
+# Build file for Cuboid
+# Generated at 05/22/20 02:21:41
+
+stagedir = _
+proj_build_dir = .dragon
+
+location = /Library/MobileSubstrate/DynamicLibraries/
+resource_dir = Resources
+build_target_file = $proj_build_dir/$stagedir/$location$name.dylib
+
+stage2 = cp $name.plist $
+    $proj_build_dir/_/Library/MobileSubstrate/DynamicLibraries/$name.plist
+
+builddir = $proj_build_dir/build
+objdir = $proj_build_dir/obj
+signdir = $proj_build_dir/sign
+signtarget = $signdir/$build_target_file.unsigned
+symtarget = $signdir/$build_target_file.unsym
+
+dragondir = $$DRAGONBUILD
+pwd = .
+sysroot = $dragondir/sdks/iPhoneOS.sdk
+
+fwSearch =  -F$sysroot/System/Library/Frameworks  $
+    -F$sysroot/System/Library/PrivateFrameworks  -F$dragondir/frameworks 
+libSearch =  -L$dragondir/lib  -L. 
+
+cc = clang
+cxx = clang++
+ld = clang++
+codesign = ldid
+dsym = dsymutil
+lipo = lipo
+logos = $dragondir/bin/logos.pl
+swift = swift
+plutil = plutil
+optool = $dragondir/bin/optool
+stage = true
+
+targetvers = 10.0
+
+frameworks =  -framework UIKit  -framework Foundation
+
+libs =  -lsubstrate
+
+arc = -fobjc-arc
+btarg = 
+warnings = -Wall
+optim = -O0
+debug = -fcolor-diagnostics
+entflag = -S
+entfile = 
+
+header_includes = 
+cinclude = -I$dragondir/include -I$dragondir/vendor/include $
+    -I$dragondir/include/_fallback -I$DRAGONBUILD/headers/ -I$pwd
+
+usrCflags =  -fobjc-arc -include$$DRAGONBUILD/include/PrefixShim.h -w 
+usrLDflags =  liblayout.dylib
+
+lopt =  -dynamiclib  -ggdb  -Xlinker  -segalign  -Xlinker  4000
+typeldflags =  liblayout.dylib
+libflags = -lobjc -lc++
+cflags = $cinclude -fmodules -fcxx-modules -fmodule-name=$name $
+    -fbuild-session-file=$proj_build_dir/modules/ $
+    -fmodules-prune-after=345600 -fmodules-prune-interval=86400 $
+    -fmodules-validate-once-per-build-session $arc $fwSearch $
+    -miphoneos-version-min=$targetvers -isysroot $sysroot $btarg $warnings $
+    $optim $debug $usrCflags $header_includes
+
+lflags = $cflags $typeldflags $frameworks $libs $libflags $lopt $libSearch $
+    $usrLDflags
+
+ldflags = $usrLDFlags
+
+swiftflags = -color-diagnostics -module-name $name -g -enable-objc-interop $
+    -swift-version 5 -sdk $
+    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk $
+    -Onone $
+    -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos $
+    -L/usr/lib/swift
+bridgeheader = 
+
+swiftfiles = 
+rule logos
+  command = $logos $in > $out
+  description = Preprocessing $in using Logos
+
+build $builddir/logos/Tweak.xm.mm: logos Tweak.xm
+
+rule objcarmv7
+  command = $cc -arch armv7 $cflags -c $in -o $out
+  description = Compiling $in with $cc [armv7]
+
+build $builddir/armv7/CBDStepperView.m.o: objcarmv7 CBDStepperView.m
+
+build $builddir/armv7/CBDContentViewPadding.m.o: objcarmv7 $
+    CBDContentViewPadding.m
+
+build $builddir/armv7/CBDContentViewOffset.m.o: objcarmv7 $
+    CBDContentViewOffset.m
+
+build $builddir/armv7/CBDContentView.m.o: objcarmv7 CBDContentView.m
+
+build $builddir/armv7/CBDManager.m.o: objcarmv7 CBDManager.m
+
+build $builddir/armv7/CBDContentViewSettings.m.o: objcarmv7 $
+    CBDContentViewSettings.m
+
+build $builddir/armv7/CBDSliderView.m.o: objcarmv7 CBDSliderView.m
+
+build $builddir/armv7/CBDContentViewMiscellaneous.m.o: objcarmv7 $
+    CBDContentViewMiscellaneous.m
+
+build $builddir/armv7/CBDView.m.o: objcarmv7 CBDView.m
+
+build $builddir/armv7/CBDSwitchView.m.o: objcarmv7 CBDSwitchView.m
+
+build $builddir/armv7/CBDContentViewMain.m.o: objcarmv7 CBDContentViewMain.m
+
+rule objcxxarmv7
+  command = $cxx -arch armv7 $cflags -c $in -o $out
+  description = Compiling $in with $cxx [armv7]
+
+build $builddir/armv7/Tweak.xm.mm.o: objcxxarmv7 $builddir/logos/Tweak.xm.mm
+
+rule linkarmv7
+  command = $ld -arch armv7 $lflags -o $out $in -lobjc -lc++
+  description = Linking $in with $ld [armv7]
+
+build $builddir/$name.armv7: linkarmv7 $builddir/armv7/CBDStepperView.m.o $
+    $builddir/armv7/CBDContentViewPadding.m.o $
+    $builddir/armv7/CBDContentViewOffset.m.o $
+    $builddir/armv7/CBDContentView.m.o $builddir/armv7/CBDManager.m.o $
+    $builddir/armv7/CBDContentViewSettings.m.o $
+    $builddir/armv7/CBDSliderView.m.o $
+    $builddir/armv7/CBDContentViewMiscellaneous.m.o $
+    $builddir/armv7/CBDView.m.o $builddir/armv7/CBDSwitchView.m.o $
+    $builddir/armv7/CBDContentViewMain.m.o $builddir/armv7/Tweak.xm.mm.o
+rule objcarm64
+  command = $cc -arch arm64 $cflags -c $in -o $out
+  description = Compiling $in with $cc [arm64]
+
+build $builddir/arm64/CBDStepperView.m.o: objcarm64 CBDStepperView.m
+
+build $builddir/arm64/CBDContentViewPadding.m.o: objcarm64 $
+    CBDContentViewPadding.m
+
+build $builddir/arm64/CBDContentViewOffset.m.o: objcarm64 $
+    CBDContentViewOffset.m
+
+build $builddir/arm64/CBDContentView.m.o: objcarm64 CBDContentView.m
+
+build $builddir/arm64/CBDManager.m.o: objcarm64 CBDManager.m
+
+build $builddir/arm64/CBDContentViewSettings.m.o: objcarm64 $
+    CBDContentViewSettings.m
+
+build $builddir/arm64/CBDSliderView.m.o: objcarm64 CBDSliderView.m
+
+build $builddir/arm64/CBDContentViewMiscellaneous.m.o: objcarm64 $
+    CBDContentViewMiscellaneous.m
+
+build $builddir/arm64/CBDView.m.o: objcarm64 CBDView.m
+
+build $builddir/arm64/CBDSwitchView.m.o: objcarm64 CBDSwitchView.m
+
+build $builddir/arm64/CBDContentViewMain.m.o: objcarm64 CBDContentViewMain.m
+
+rule objcxxarm64
+  command = $cxx -arch arm64 $cflags -c $in -o $out
+  description = Compiling $in with $cxx [arm64]
+
+build $builddir/arm64/Tweak.xm.mm.o: objcxxarm64 $builddir/logos/Tweak.xm.mm
+
+rule linkarm64
+  command = $ld -arch arm64 $lflags -o $out $in -lobjc -lc++
+  description = Linking $in with $ld [arm64]
+
+build $builddir/$name.arm64: linkarm64 $builddir/arm64/CBDStepperView.m.o $
+    $builddir/arm64/CBDContentViewPadding.m.o $
+    $builddir/arm64/CBDContentViewOffset.m.o $
+    $builddir/arm64/CBDContentView.m.o $builddir/arm64/CBDManager.m.o $
+    $builddir/arm64/CBDContentViewSettings.m.o $
+    $builddir/arm64/CBDSliderView.m.o $
+    $builddir/arm64/CBDContentViewMiscellaneous.m.o $
+    $builddir/arm64/CBDView.m.o $builddir/arm64/CBDSwitchView.m.o $
+    $builddir/arm64/CBDContentViewMain.m.o $builddir/arm64/Tweak.xm.mm.o
+rule objcarm64e
+  command = $cc -arch arm64e $cflags -c $in -o $out
+  description = Compiling $in with $cc [arm64e]
+
+build $builddir/arm64e/CBDStepperView.m.o: objcarm64e CBDStepperView.m
+
+build $builddir/arm64e/CBDContentViewPadding.m.o: objcarm64e $
+    CBDContentViewPadding.m
+
+build $builddir/arm64e/CBDContentViewOffset.m.o: objcarm64e $
+    CBDContentViewOffset.m
+
+build $builddir/arm64e/CBDContentView.m.o: objcarm64e CBDContentView.m
+
+build $builddir/arm64e/CBDManager.m.o: objcarm64e CBDManager.m
+
+build $builddir/arm64e/CBDContentViewSettings.m.o: objcarm64e $
+    CBDContentViewSettings.m
+
+build $builddir/arm64e/CBDSliderView.m.o: objcarm64e CBDSliderView.m
+
+build $builddir/arm64e/CBDContentViewMiscellaneous.m.o: objcarm64e $
+    CBDContentViewMiscellaneous.m
+
+build $builddir/arm64e/CBDView.m.o: objcarm64e CBDView.m
+
+build $builddir/arm64e/CBDSwitchView.m.o: objcarm64e CBDSwitchView.m
+
+build $builddir/arm64e/CBDContentViewMain.m.o: objcarm64e CBDContentViewMain.m
+
+rule objcxxarm64e
+  command = $cxx -arch arm64e $cflags -c $in -o $out
+  description = Compiling $in with $cxx [arm64e]
+
+build $builddir/arm64e/Tweak.xm.mm.o: objcxxarm64e $builddir/logos/Tweak.xm.mm
+
+rule linkarm64e
+  command = $ld -arch arm64e $lflags -o $out $in -lobjc -lc++
+  description = Linking $in with $ld [arm64e]
+
+build $builddir/$name.arm64e: linkarm64e $
+    $builddir/arm64e/CBDStepperView.m.o $
+    $builddir/arm64e/CBDContentViewPadding.m.o $
+    $builddir/arm64e/CBDContentViewOffset.m.o $
+    $builddir/arm64e/CBDContentView.m.o $builddir/arm64e/CBDManager.m.o $
+    $builddir/arm64e/CBDContentViewSettings.m.o $
+    $builddir/arm64e/CBDSliderView.m.o $
+    $builddir/arm64e/CBDContentViewMiscellaneous.m.o $
+    $builddir/arm64e/CBDView.m.o $builddir/arm64e/CBDSwitchView.m.o $
+    $builddir/arm64e/CBDContentViewMain.m.o $builddir/arm64e/Tweak.xm.mm.o
+rule lipo
+  command = $lipo -create $in -output $out
+  description = Merging architechtures
+
+build $symtarget: lipo $builddir/$name.armv7 $builddir/$name.arm64 $
+    $builddir/$name.arm64e
+
+rule debug
+  command = $dsym \"$in\" 2&> /dev/null; cp $in $out
+  description = Generating Debug Symbols for $name
+
+build $signtarget: debug $symtarget
+
+rule sign
+  command = $codesign $entflag$entfile $in && cp $in $out
+  description = Signing $name
+
+build $build_target_file: sign $signtarget
+
+rule stage
+  command = $stage; $stage2
+  description = Running Stage for $name
+
+build stage: stage build.ninja
+default $build_target_file

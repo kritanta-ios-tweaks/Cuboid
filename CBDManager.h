@@ -1,14 +1,22 @@
 #import "CBDView.h"
 
 @interface CBDManager : NSObject
+{
+    CGFloat homescreenColumns;
+    CGFloat homescreenRows;
+    CGFloat verticalOffset;
+    CGFloat horizontalOffset;
+    CGFloat verticalPadding;
+    CGFloat horizontalPadding;
+}
 
 @property (nonatomic, strong) NSUserDefaults* defaults;
 @property (nonatomic, strong) NSMutableDictionary *savedLayouts;
 
 @property (nonatomic, assign) BOOL hideIconLabels;
 @property (nonatomic, assign) BOOL hideIconDots;
-@property (nonatomic, assign) NSUInteger homescreenColumns;
-@property (nonatomic, assign) NSUInteger homescreenRows;
+@property (nonatomic, assign) CGFloat homescreenColumns;
+@property (nonatomic, assign) CGFloat homescreenRows;
 @property (nonatomic, assign) CGFloat verticalOffset;
 @property (nonatomic, assign) CGFloat horizontalOffset;
 @property (nonatomic, assign) CGFloat verticalPadding;

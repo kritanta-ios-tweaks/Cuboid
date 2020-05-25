@@ -7,7 +7,8 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = Cuboid
 Cuboid_FILES = Tweak.xm $(wildcard CBD*.m)
-Cuboid_CFLAGS = -fobjc-arc
+Cuboid_CFLAGS = -fobjc-arc 
+Cuboid_LDFLAGS = liblayout.dylib
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 

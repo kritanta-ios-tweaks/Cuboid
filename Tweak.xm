@@ -181,7 +181,7 @@
 }
 
 %end
-
+/*
 %group iOS13
 
 
@@ -318,7 +318,7 @@
 %end
 
 %end
-
+*/
 /* Disable home screen rotation on + devices. */
 
 %hook SpringBoard
@@ -339,13 +339,8 @@
 
 %ctor 
 {
+	dlopen("/usr/lib/liblayout.dylib", RTLD_NOW);
     %init;
 
-	if (kCFCoreFoundationVersionNumber < 1600) 
-    {
-	} 
-    else 
-    {
-		%init(iOS13);
-	}
+
 }
